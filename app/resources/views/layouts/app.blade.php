@@ -97,7 +97,7 @@
 
             <!-- @yield('content') -->
             <div id="app">
-                <example-component></example-component>
+                <router-view />
             </div>
         </main>
         <footer class="footer_design">
