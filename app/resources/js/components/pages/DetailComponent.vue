@@ -14,10 +14,16 @@
             <!-- @if(isset( $stock )) -->
 
             <div class="mycart_box">
+              {{ stock.name }}
+              <br />
+              {{ stock.fee }}
+              <img :src="`/uploads/${stock.imgpath}`" alt="" />
+              <br />
               <!-- {{ $stock->name}} <br> -->
               <!-- {{ number_format($stock->fee)}}円 <br> -->
               <!-- <img src="{{ asset('/uploads/' . $stock->imgpath) }}" alt="" class="incart"> -->
               <br />
+              <p>{{ stock.detail }}</p>
               <!-- <p>{{ $stock->detail }}</p> -->
 
               <!-- 
@@ -52,3 +58,26 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      stock: {},
+    };
+  },
+  props: {
+    stockId: String,
+  },
+  methods: {
+    getStock() {
+      axios.get("/api/detail/" + this.stockId).then((res) => {
+        this.stock = res.data;
+      });
+    },
+  },
+  mounted() {
+    this.getStock();
+  },
+};
+</script>

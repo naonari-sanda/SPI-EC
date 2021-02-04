@@ -20,9 +20,10 @@ export default new Router({
             component: Cart
         },
         {
-            path: '/detail',
+            path: '/detail/:stockId',
             name: 'detail',
-            component: Detail
+            component: Detail,
+            props: true
         }
     ]
 })

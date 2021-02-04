@@ -19,18 +19,31 @@ use Illuminate\Foundation\Console\Presets\React;
 class ShopController extends Controller
 {
     //メイン画面
+    // public function index()
+    // {
+    //     $stocks = Stock::Paginate(6);
+    //     return view('user.shop', compact('stocks'));
+    // }
+
     public function index()
     {
-        $stocks = Stock::Paginate(6);
-        return view('user.shop', compact('stocks'));
+        // $stocks = Stock::Paginate(6);
+        return Stock::all();
     }
 
     //商品詳細表示
+    // public function detail(int $id)
+    // {
+    //     $stock = Stock::find($id);
+
+    //     return view('user.detail', compact('stock'));
+    // }
+
     public function detail(int $id)
     {
         $stock = Stock::find($id);
 
-        return view('user.detail', compact('stock'));
+        return $stock;
     }
 
     //カートページ

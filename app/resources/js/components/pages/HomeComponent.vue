@@ -14,15 +14,22 @@
       </h1>
       <div class="">
         <div class="d-flex flex-row flex-wrap">
-          <div class="col-xs-6 col-sm-4 col-md-4">
+          <div
+            v-for="stock in stocks"
+            :key="stock.id"
+            class="col-xs-6 col-sm-4 col-md-4"
+          >
             <div class="mycart_box">
-              商品名<br />
-              値段円
-              <img src="" alt="" class="incart" />
+              {{ stock.name }}<br />
+              {{ stock.fee }}円
+              <img :src="`/uploads/${stock.imgpath}`" alt="" class="incart" />
               <br />
-              詳細が入ります <br />
+              {{ stock.detail }} <br />
 
-              <router-link :to="{ name: 'detail' }">詳細はこちら</router-link>
+              <router-link
+                :to="{ name: 'detail', params: { stockId: stock.id } }"
+                >詳細はこちら</router-link
+              >
             </div>
           </div>
         </div>
@@ -31,3 +38,23 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      stocks: {},
+    };
+  },
+  methods: {
+    getStocks() {
+      axios.get("/api").then((res) => {
+        this.stocks = res.data;
+      });
+    },
+  },
+  mounted() {
+    this.getStocks();
+  },
+};
+</script>
