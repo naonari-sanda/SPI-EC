@@ -4,7 +4,7 @@
       <div class="mx-auto" style="max-width: 1200px">
         <h1
           class="text-center font-weight-bold"
-          style="color: #fff; font-size: 1.2em; padding: 24px 0px"
+          style="color: #000; font-size: 1.2em; padding: 24px 0px"
         >
           商品ページ
         </h1>
@@ -16,7 +16,7 @@
             <div class="mycart_box">
               {{ stock.name }}
               <br />
-              {{ stock.fee }}
+              {{ stock.fee }}円
               <img :src="`/uploads/${stock.imgpath}`" alt="" />
               <br />
               <!-- {{ $stock->name}} <br> -->
@@ -67,7 +67,9 @@ export default {
     };
   },
   props: {
-    stockId: String,
+    stockId: {
+      type: String | Number,
+    },
   },
   methods: {
     getStock() {

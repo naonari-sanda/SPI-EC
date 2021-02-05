@@ -45,3 +45,13 @@ img.incart {
     width: 200px;
     margin: 20px auto;
 }
+
+.opacity {
+    opacity: 0;
+    transition: all 1s;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none !important;
+}
