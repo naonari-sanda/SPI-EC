@@ -2,7 +2,7 @@
   <div>
     <header-component :auth="auth" />
     <main>
-      <router-view :errors="errors" />
+      <router-view :errors="errors" :auth="auth" />
     </main>
     <footer-component />
   </div>

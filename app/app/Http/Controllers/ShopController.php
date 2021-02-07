@@ -59,11 +59,10 @@ class ShopController extends Controller
     {
         $stock_id = $request->stock_id;
         $qty = $request->qty;
-        $message = $cart->addCart($stock_id, $qty);
+        $user_id = $request->user_id;
+        $message = $cart->addCart($stock_id, $qty, $user_id);
 
-        Session::flash('flash_message', $message);
-
-        return redirect()->route('mycart');
+        Session::flash('flash_message', $message);;
     }
 
     //商品をカートから削除：カートページ表示

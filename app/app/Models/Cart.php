@@ -36,9 +36,8 @@ class Cart extends Model
     }
 
     //カートに商品追加処理
-    public function addCart($stock_id, $qty)
+    public function addCart($stock_id, $qty, $user_id)
     {
-        $user_id = Auth::id();
         $cart_add_info = Cart::updateOrCreate(
             [
                 'stock_id' => $stock_id,

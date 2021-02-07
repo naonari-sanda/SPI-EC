@@ -2116,15 +2116,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      stock: {}
+      stock: {},
+      qty: "1",
+      data: ""
     };
   },
   props: {
     stockId: {
       type: String | Number
+    },
+    auth: {
+      type: Object | Array
     }
   },
   methods: {
@@ -2133,6 +2144,27 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/detail/" + this.stockId).then(function (res) {
         _this.stock = res.data;
+      });
+    },
+    addCart: function addCart() {
+      var _this2 = this;
+
+      var data = {
+        stock_id: this.stockId,
+        qty: this.qty,
+        user_id: this.auth.id
+      };
+      axios.post("/api/mycart", {
+        stock_id: this.stockId,
+        qty: this.qty,
+        user_id: this.auth.id
+      }).then(function (res) {
+        _this2.$router.push({
+          name: "cart"
+        });
+      })["catch"](function (error) {
+        console.log(error.response);
+        alert("エラーが発生しました");
       });
     }
   },
@@ -42857,13 +42889,75 @@ var render = function() {
                 _vm._v(" "),
                 _c("p", [_vm._v(_vm._s(_vm.stock.detail))]),
                 _vm._v(" "),
-                _vm._m(0),
+                _c("p", [_vm._v(_vm._s(_vm.data))]),
                 _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "btn btn-danger btn-lg text-center buy-btn form-control @error('name') is-invalid @enderror",
-                  attrs: { type: "submit", value: "カートに入れる" }
-                }),
+                _vm.auth.length !== 0
+                  ? _c("div", [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qty,
+                              expression: "qty"
+                            }
+                          ],
+                          attrs: { name: "qty", id: "qty" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.qty = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("1")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("2")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("3")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "4" } }, [
+                            _vm._v("4")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
+                        ]
+                      ),
+                      _vm._v("\n              個\n              "),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-danger btn-lg text-center buy-btn form-control @error('name') is-invalid @enderror",
+                          on: { click: _vm.addCart }
+                        },
+                        [
+                          _vm._v(
+                            "\n                カートに入れる\n              "
+                          )
+                        ]
+                      )
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("span", {
                   staticClass: "invalid-feedback",
@@ -42877,24 +42971,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("select", { attrs: { name: "qty", id: "qty" } }, [
-      _c("option", { attrs: { value: "1" } }, [_vm._v("1")]),
-      _vm._v(" "),
-      _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
-      _vm._v(" "),
-      _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
-      _vm._v(" "),
-      _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
-      _vm._v(" "),
-      _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -43369,7 +43446,11 @@ var render = function() {
     [
       _c("header-component", { attrs: { auth: _vm.auth } }),
       _vm._v(" "),
-      _c("main", [_c("router-view", { attrs: { errors: _vm.errors } })], 1),
+      _c(
+        "main",
+        [_c("router-view", { attrs: { errors: _vm.errors, auth: _vm.auth } })],
+        1
+      ),
       _vm._v(" "),
       _c("footer-component")
     ],
@@ -59717,15 +59798,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************!*\
   !*** ./resources/js/components/pages/MainComponent.vue ***!
   \*********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MainComponent_vue_vue_type_template_id_32aea59e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MainComponent.vue?vue&type=template&id=32aea59e& */ "./resources/js/components/pages/MainComponent.vue?vue&type=template&id=32aea59e&");
 /* harmony import */ var _MainComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MainComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/MainComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _MainComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _MainComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -59755,7 +59835,7 @@ component.options.__file = "resources/js/components/pages/MainComponent.vue"
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/pages/MainComponent.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

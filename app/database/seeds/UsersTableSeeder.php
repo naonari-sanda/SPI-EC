@@ -24,8 +24,6 @@ class UsersTableSeeder extends Seeder
                 'email' => 'test@icloud.com',
                 'password' => Hash::make('wqwqwqwq'),
                 'remember_token' => Str::random(10),
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
             ]
         ]);
     }

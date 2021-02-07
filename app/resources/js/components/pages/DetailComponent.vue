@@ -24,24 +24,30 @@
               <!-- <img src="{{ asset('/uploads/' . $stock->imgpath) }}" alt="" class="incart"> -->
               <br />
               <p>{{ stock.detail }}</p>
+              <p>{{ data }}</p>
               <!-- <p>{{ $stock->detail }}</p> -->
 
               <!-- 
                         <form action="{{ route('addcart') }}" method="post"> -->
               <!-- @csrf -->
-              <select name="qty" id="qty" class="">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <!-- <input type="hidden" name="stock_id" value="{{ $stock->id }}"> -->
-              <input
-                type="submit"
-                value="カートに入れる"
-                class="btn btn-danger btn-lg text-center buy-btn form-control @error('name') is-invalid @enderror"
-              />
+              <div v-if="auth.length !== 0">
+                <select v-model="qty" name="qty" id="qty" class="">
+                  <!-- <option value="" disable>個数</option> -->
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                個
+                <!-- <input type="hidden" name="stock_id" value="{{ $stock->id }}"> -->
+                <button
+                  @click="addCart"
+                  class="btn btn-danger btn-lg text-center buy-btn form-control @error('name') is-invalid @enderror"
+                >
+                  カートに入れる
+                </button>
+              </div>
               <!-- @if ($errors->has('$stock_id')) -->
               <span class="invalid-feedback" role="alert">
                 <!-- <strong>{{ $errors->first('$stock_id') }}</strong> -->
@@ -64,11 +70,16 @@ export default {
   data() {
     return {
       stock: {},
+      qty: "1",
+      data: "",
     };
   },
   props: {
     stockId: {
       type: String | Number,
+    },
+    auth: {
+      type: Object | Array,
     },
   },
   methods: {
@@ -76,6 +87,26 @@ export default {
       axios.get("/api/detail/" + this.stockId).then((res) => {
         this.stock = res.data;
       });
+    },
+    addCart() {
+      var data = {
+        stock_id: this.stockId,
+        qty: this.qty,
+        user_id: this.auth.id,
+      };
+      axios
+        .post("/api/mycart", {
+          stock_id: this.stockId,
+          qty: this.qty,
+          user_id: this.auth.id,
+        })
+        .then((res) => {
+          this.$router.push({ name: "cart" });
+        })
+        .catch((error) => {
+          console.log(error.response);
+          alert("エラーが発生しました");
+        });
     },
   },
   mounted() {

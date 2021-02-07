@@ -17,5 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//商品一覧画面
 Route::get('/', 'ShopController@index');
+//商品詳細画面
 Route::get('/detail/{id}', 'ShopController@detail');
+//カートに商品を追加
+Route::post('/mycart', 'ShopController@addMycart');
