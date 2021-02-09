@@ -36,10 +36,19 @@
         <div class="text-center" style="width: 200px; margin: 20px auto"></div>
       </div>
     </div>
+    <notifications />
   </div>
 </template>
 
 <script>
+const referrer = document.referrer;
+if (referrer.indexOf("/login") !== -1) {
+  this.displayNotification("ログインしました", "info");
+  this.resetReferrer();
+} else if (referrer.indexOf("/register") !== -1) {
+  this.displayNotification("会員登録しました", "success");
+  this.resetReferrer();
+}
 export default {
   data() {
     return {
@@ -50,6 +59,18 @@ export default {
     getStocks() {
       axios.get("/api").then((res) => {
         this.stocks = res.data;
+      });
+    },
+    resetReferrer() {
+      Object.defineProperty(document, "referrer", {
+        value: location.href,
+      });
+    },
+    displayNotification(text, type) {
+      this.$notify({
+        title: "お知らせ",
+        text: text,
+        type: type,
       });
     },
   },

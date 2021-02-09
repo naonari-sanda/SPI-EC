@@ -18,9 +18,10 @@ export default new Router({
             component: Home
         },
         {
-            path: '/cart',
+            path: '/mycart/:userId',
             name: 'cart',
-            component: Cart
+            component: Cart,
+            props: true
         },
         {
             path: '/detail/:stockId',

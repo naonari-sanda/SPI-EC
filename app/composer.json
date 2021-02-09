@@ -11,6 +11,7 @@
         "php": "^7.2",
         "doctrine/dbal": "^2.11",
         "fideloper/proxy": "^4.0",
+        "laravel/airlock": "^2.9",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.2"

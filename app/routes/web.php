@@ -29,8 +29,8 @@ Route::get('/{any}', function () {
 //     //カートに商品を追加
 //     Route::post('/mycart', 'ShopController@addMycart')->name('addcart');
 
-//     //カート内削除
-//     Route::post('/deletecart', 'ShopController@deleteCart')->name('deletecart');
+    // //カート内削除
+    // Route::post('/deletecart', 'ShopController@deleteCart')->name('deletecart');
 
 //     //購入画面
 //     Route::post('/checkout', 'ShopController@checkout');

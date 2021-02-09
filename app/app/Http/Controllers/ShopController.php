@@ -18,26 +18,12 @@ use Illuminate\Foundation\Console\Presets\React;
 
 class ShopController extends Controller
 {
-    //メイン画面
-    // public function index()
-    // {
-    //     $stocks = Stock::Paginate(6);
-    //     return view('user.shop', compact('stocks'));
-    // }
 
     public function index()
     {
         // $stocks = Stock::Paginate(6);
         return Stock::all();
     }
-
-    //商品詳細表示
-    // public function detail(int $id)
-    // {
-    //     $stock = Stock::find($id);
-
-    //     return view('user.detail', compact('stock'));
-    // }
 
     public function detail(int $id)
     {
@@ -46,42 +32,31 @@ class ShopController extends Controller
         return $stock;
     }
 
-    // //カートページ
-    // public function myCart(Cart $cart)
-    // {
-    //     $data = $cart->showCart();
-
-    //     return view('user.mycart', $data);
-    // }
-
     //カートページ
-    public function myCart(Cart $cart)
+    public function myCart(int $id, Cart $cart)
     {
-        return $data = $cart->showCart();
+        $user_id = $id;
+        return $data = $cart->showCart($user_id);
     }
 
     //カートに商品を追加・編集：カートページ表示
-    public function addMycart(CartRequest $request, Cart $cart)
+    public function addMycart(CartRequest $request)
     {
-        $stock_id = $request->stock_id;
-        $qty = $request->qty;
-        $user_id = $request->user_id;
-        $message = $cart->addCart($stock_id, $qty, $user_id);
-
-        return $message;
+        Cart::updateOrCreate(
+            [
+                'stock_id' =>  $request->stock_id,
+                'user_id' => $request->user_id
+            ],
+            ['qty' => $request->qty]
+        );
     }
 
     //商品をカートから削除：カートページ表示
-    public function deleteCart(Request $request, Cart $cart)
+    public function deleteCart(Request $request)
     {
-        $stock_id = $request->stock_id;
-        $message = $cart->deleteCart($stock_id);
+        $data = Cart::where('user_id', $request->user_id)->where('stock_id', $request->stock_id)->delete();
 
-        $data = $cart->showCart();
-
-        Session::flash('flash_message', $message);
-
-        return view('user.mycart', $data);
+        return $data;
     }
 
     //注文受付完了
