@@ -14,9 +14,11 @@
             <!-- @if(isset( $stock )) -->
 
             <div class="mycart_box">
-              {{ stock.name }}
-              <br />
-              {{ stock.fee }}円
+              <p>
+                {{ stock.name }}
+                <br />
+                {{ stock.fee }}円
+              </p>
               <img :src="`/uploads/${stock.imgpath}`" alt="" />
               <br />
               <!-- {{ $stock->name}} <br> -->
@@ -52,12 +54,7 @@
               <span class="invalid-feedback" role="alert">
                 <!-- <strong>{{ $errors->first('$stock_id') }}</strong> -->
               </span>
-              <!-- @endif -->
-              <!-- </form><br> -->
             </div>
-            <!-- @endif -->
-
-            <!-- <a href="{{ route('main') }}">商品一覧へ</a> -->
           </div>
         </div>
       </div>
@@ -101,7 +98,7 @@ export default {
           user_id: this.auth.id,
         })
         .then((res) => {
-          this.$router.push({ name: "cart" });
+          this.$router.push({ name: "cart", params: { userId: this.auth.id } });
         })
         .catch((error) => {
           console.log(error.response);

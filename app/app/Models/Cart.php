@@ -19,9 +19,8 @@ class Cart extends Model
     }
 
     //合計・個数処理
-    public function showCart()
+    public function showCart($user_id)
     {
-        $user_id = Auth::id();
         $data['my_carts'] = $this->where('user_id', $user_id)->get();
 
         $data['count'] = 0;
@@ -33,42 +32,6 @@ class Cart extends Model
         }
 
         return $data;
-    }
-
-    //カートに商品追加処理
-    public function addCart($stock_id, $qty, $user_id)
-    {
-        $cart_add_info = Cart::updateOrCreate(
-            [
-                'stock_id' => $stock_id,
-                'user_id' => $user_id,
-            ],
-            ['qty' => $qty]
-        );
-
-        if ($cart_add_info->wasRecentlyCreated) {
-            $message = 'カートに追加しました';
-        } else {
-            $message = '商品を編集しました';
-        }
-
-        return $message;
-    }
-
-    //カート内商品削除
-    public function deleteCart($stock_id)
-    {
-
-        $user_id = Auth::id();
-        $delete = $this->where('user_id', $user_id)->where('stock_id', $stock_id)->delete();
-
-        if ($delete > 0) {
-            $message = 'カートから一つの商品を削除しました';
-        } else {
-            $message = '削除に失敗しました';
-        }
-
-        return $message;
     }
 
     //注文完了：カート内削除

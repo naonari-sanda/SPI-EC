@@ -36,7 +36,7 @@
               </router-link>
             </li>
           </div>
-          <li class="nav-item dropdown">
+          <li v-if="auth.length !== 0" class="nav-item dropdown">
             <a
               id="navbarDropdown"
               class="nav-link dropdown-toggle"
@@ -54,13 +54,18 @@
               aria-labelledby="navbarDropdown"
             >
               <a class="dropdown-item"> ログアウト </a>
-              <a class="dropdown-item"> カートを見る </a>
+              <router-link :to="{ name: 'cart', params: { userId: auth.id } }">
+                <a class="dropdown-item"> カートを見る </a>
+              </router-link>
               <router-link :to="{ name: 'acount' }"
                 ><a class="dropdown-item"> アカウント情報 </a></router-link
               >
             </div>
           </li>
-          <router-link :to="{ name: 'cart' }">
+          <router-link
+            v-if="auth.length !== 0"
+            :to="{ name: 'cart', params: { userId: auth.id } }"
+          >
             <img src="uploads/cart.png" class="cart" />
           </router-link>
         </ul>

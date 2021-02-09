@@ -19,8 +19,10 @@ window.Vue = require('vue');
 
 import Vue from 'vue'
 import router from './router.js'
+import Notifications from 'vue-notification'
 import MainComponent from './components/pages/MainComponent'
 
+Vue.use(Notifications);
 
 new Vue({
     router: router,
