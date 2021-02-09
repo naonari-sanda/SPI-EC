@@ -23,3 +23,5 @@ Route::get('/', 'ShopController@index');
 Route::get('/detail/{id}', 'ShopController@detail');
 //カートに商品を追加
 Route::post('/mycart', 'ShopController@addMycart');
+//カート内表示
+Route::get('/mycart', 'ShopController@myCart');

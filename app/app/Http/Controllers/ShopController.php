@@ -46,12 +46,18 @@ class ShopController extends Controller
         return $stock;
     }
 
+    // //カートページ
+    // public function myCart(Cart $cart)
+    // {
+    //     $data = $cart->showCart();
+
+    //     return view('user.mycart', $data);
+    // }
+
     //カートページ
     public function myCart(Cart $cart)
     {
-        $data = $cart->showCart();
-
-        return view('user.mycart', $data);
+        return $data = $cart->showCart();
     }
 
     //カートに商品を追加・編集：カートページ表示
@@ -62,7 +68,7 @@ class ShopController extends Controller
         $user_id = $request->user_id;
         $message = $cart->addCart($stock_id, $qty, $user_id);
 
-        Session::flash('flash_message', $message);;
+        return $message;
     }
 
     //商品をカートから削除：カートページ表示

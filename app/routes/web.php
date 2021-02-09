@@ -23,8 +23,8 @@ Route::get('/{any}', function () {
 // //ログインユーザーのみ
 // Route::group(['middleware' => 'auth'], function () {
 
-//     //カート内表示
-//     Route::get('/mycart', 'ShopController@myCart')->name('mycart');
+    // //カート内表示
+    // Route::get('/mycart', 'ShopController@myCart')->name('mycart');
 
 //     //カートに商品を追加
 //     Route::post('/mycart', 'ShopController@addMycart')->name('addcart');
