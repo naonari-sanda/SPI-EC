@@ -2137,6 +2137,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+var referrer = document.referrer;
+
+if (referrer.indexOf("/detail/") !== -1) {
+  undefined.displayNotification("ログインしました", "info");
+  undefined.resetReferrer();
+}
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2169,9 +2177,25 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post("/api/deletecart/", data).then(function (res) {
         _this2.getCarts();
+
+        _this2.displayNotification("商品を削除しました", "error");
+
+        _this2.resetReferrer();
       })["catch"](function (error) {
         alert("失敗");
         console.log(error.res);
+      });
+    },
+    resetReferrer: function resetReferrer() {
+      Object.defineProperty(document, "referrer", {
+        value: location.href
+      });
+    },
+    displayNotification: function displayNotification(text, type) {
+      this.$notify({
+        title: "お知らせ",
+        text: text,
+        type: type
       });
     }
   },
@@ -43005,178 +43029,185 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("div", {}, [
-      _c(
-        "div",
-        { staticClass: "mx-auto", staticStyle: { "max-width": "1200px" } },
-        [
-          _c(
-            "h1",
-            {
-              staticClass: "text-center font-weight-bold",
-              staticStyle: {
-                color: "#555555",
-                "font-size": "1.2em",
-                padding: "24px 0px"
-              }
-            },
-            [
-              _vm._v(
-                "\n        " +
-                  _vm._s(_vm.auth.name) +
-                  "さんのカートの中身\n      "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("br"),
+  return _c(
+    "div",
+    { staticClass: "container-fluid" },
+    [
+      _c("div", {}, [
+        _c(
+          "div",
+          { staticClass: "mx-auto", staticStyle: { "max-width": "1200px" } },
+          [
+            _c(
+              "h1",
+              {
+                staticClass: "text-center font-weight-bold",
+                staticStyle: {
+                  color: "#555555",
+                  "font-size": "1.2em",
+                  padding: "24px 0px"
+                }
+              },
+              [
+                _vm._v(
+                  "\n        " +
+                    _vm._s(_vm.auth.name) +
+                    "さんのカートの中身\n      "
+                )
+              ]
+            ),
             _vm._v(" "),
-            _c("div", { staticClass: "flex-row flex-wrap" }, [
-              _vm.data.my_carts != ""
-                ? _c(
-                    "div",
-                    [
-                      _vm._l(_vm.data.my_carts, function(cart, index) {
-                        return _c(
+            _c("div", { staticClass: "card-body" }, [
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex-row flex-wrap" }, [
+                _vm.data.my_carts != ""
+                  ? _c(
+                      "div",
+                      [
+                        _vm._l(_vm.data.my_carts, function(cart, index) {
+                          return _c(
+                            "div",
+                            { key: index, staticClass: "mycart_box" },
+                            [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(cart.stock.name) +
+                                  "\n              "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n              個数：" +
+                                  _vm._s(cart.qty) +
+                                  "個\n              "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(cart.stock.fee) +
+                                  "円\n              "
+                              ),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("img", {
+                                staticClass: "incart",
+                                attrs: {
+                                  src: "/uploads/" + cart.stock.imgpath,
+                                  alt: ""
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: {
+                                    to: {
+                                      name: "detail",
+                                      params: { stockId: cart.stock_id }
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "d-block mb-3",
+                                      attrs: { href: "" }
+                                    },
+                                    [_vm._v("商品の詳細画面")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-primary btn-sm text-center delete-btn",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteCart(cart.stock.id)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    '\n                カートから削除する"\n              '
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c(
                           "div",
-                          { key: index, staticClass: "mycart_box" },
+                          {
+                            staticClass: "text-center p-2",
+                            staticStyle: {
+                              "font-size": "1em",
+                              "font-weight": "bold"
+                            }
+                          },
                           [
                             _vm._v(
-                              "\n              " +
-                                _vm._s(cart.stock.name) +
-                                "\n              "
-                            ),
-                            _c("br"),
-                            _vm._v(
                               "\n              個数：" +
-                                _vm._s(cart.qty) +
-                                "個\n              "
+                                _vm._s(_vm.data.count) +
+                                "個 "
                             ),
-                            _c("br"),
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(cart.stock.fee) +
-                                "円\n              "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("img", {
-                              staticClass: "incart",
-                              attrs: {
-                                src: "/uploads/" + cart.stock.imgpath,
-                                alt: ""
-                              }
-                            }),
-                            _vm._v(" "),
                             _c("br"),
                             _vm._v(" "),
                             _c(
-                              "router-link",
+                              "p",
                               {
-                                attrs: {
-                                  to: {
-                                    name: "detail",
-                                    params: { stockId: cart.stock_id }
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "d-block mb-3",
-                                    attrs: { href: "" }
-                                  },
-                                  [_vm._v("商品の詳細画面")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-primary btn-sm text-center delete-btn",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteCart(cart.stock.id)
-                                  }
+                                staticStyle: {
+                                  "font-size": "1.2em",
+                                  "font-weight": "bold"
                                 }
                               },
                               [
                                 _vm._v(
-                                  '\n                カートから削除する"\n              '
+                                  "\n                合計：" +
+                                    _vm._s(_vm.data.sum) +
+                                    " 円\n              "
                                 )
                               ]
                             )
-                          ],
-                          1
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-danger btn-lg text-center buy-btn",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("\n              購入する\n            ")]
                         )
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "text-center p-2",
-                          staticStyle: {
-                            "font-size": "1em",
-                            "font-weight": "bold"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n              個数：" +
-                              _vm._s(_vm.data.count) +
-                              "個 "
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            {
-                              staticStyle: {
-                                "font-size": "1.2em",
-                                "font-weight": "bold"
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                合計：" +
-                                  _vm._s(_vm.data.sum) +
-                                  " 円\n              "
-                              )
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-danger btn-lg text-center buy-btn",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("\n              購入する\n            ")]
-                      )
-                    ],
-                    2
-                  )
-                : _c("div", [
-                    _c("p", { staticClass: "text-center" }, [
-                      _vm._v("カートは空っぽです")
-                    ])
-                  ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "/" } }, [_vm._v("商品一覧へ")])
+                      ],
+                      2
+                    )
+                  : _c("div", [
+                      _c("p", { staticClass: "text-center" }, [
+                        _vm._v("カートは空っぽです")
+                      ])
+                    ]),
+                _vm._v(" "),
+                _c("a", { attrs: { href: "/" } }, [_vm._v("商品一覧へ")])
+              ])
             ])
-          ])
-        ]
-      )
-    ])
-  ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("notifications")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

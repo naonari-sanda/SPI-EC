@@ -72,10 +72,17 @@
         </div>
       </div>
     </div>
+    <notifications />
   </div>
 </template>
 
 <script>
+const referrer = document.referrer;
+if (referrer.indexOf("/detail/") !== -1) {
+  this.displayNotification("ログインしました", "info");
+  this.resetReferrer();
+}
+
 export default {
   data() {
     return {
@@ -106,11 +113,25 @@ export default {
         .post("/api/deletecart/", data)
         .then((res) => {
           this.getCarts();
+          this.displayNotification("商品を削除しました", "error");
+          this.resetReferrer();
         })
         .catch((error) => {
           alert("失敗");
           console.log(error.res);
         });
+    },
+    resetReferrer() {
+      Object.defineProperty(document, "referrer", {
+        value: location.href,
+      });
+    },
+    displayNotification(text, type) {
+      this.$notify({
+        title: "お知らせ",
+        text: text,
+        type: type,
+      });
     },
   },
   mounted() {
